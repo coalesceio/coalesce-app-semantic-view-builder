@@ -1,0 +1,150 @@
+{
+  "name": "SV_BUILDER_SELFTEST",
+  "location": "EDW",
+  "description": "ARR movements by account and month. It's a test of the builder's \"quoting\".",
+  "spec": {
+    "tables": [
+      {
+        "alias": "arr",
+        "location": "EDW",
+        "node": "FCT_MONTHLY_ACCOUNT_ARR",
+        "primaryKey": [
+          "ACCOUNT_ID",
+          "MONTH"
+        ],
+        "synonyms": [
+          "recurring revenue",
+          "arr movements"
+        ],
+        "comment": "One row per account per month."
+      },
+      {
+        "alias": "dates",
+        "location": "EDW",
+        "node": "DIM_DATE",
+        "primaryKey": [
+          "DATE_KEY"
+        ],
+        "synonyms": [
+          "calendar"
+        ],
+        "comment": "Calendar"
+      },
+      {
+        "alias": "contact",
+        "location": "EDW",
+        "node": "DIM_CONTACT",
+        "primaryKey": [
+          "ID"
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "arr_to_dates",
+        "from": "arr",
+        "fromColumns": [
+          "MONTH"
+        ],
+        "to": "dates",
+        "toColumns": [
+          "DATE_KEY"
+        ]
+      },
+      {
+        "name": "arr_to_contact",
+        "from": "arr",
+        "fromColumns": [
+          "ACCOUNT_ID"
+        ],
+        "to": "contact",
+        "toColumns": [
+          "ID"
+        ]
+      }
+    ],
+    "facts": [
+      {
+        "table": "arr",
+        "name": "ending_arr",
+        "expr": "arr.ENDING_ARR",
+        "comment": "ARR at month end"
+      },
+      {
+        "table": "arr",
+        "name": "net_new",
+        "expr": "arr.NEW_BUSINESS_ARR + arr.EXPANSION_ARR - arr.CONTRACTION_ARR - arr.CHURN_ARR",
+        "synonyms": [
+          "net new arr"
+        ]
+      }
+    ],
+    "dimensions": [
+      {
+        "table": "arr",
+        "name": "account_name",
+        "expr": "arr.ACCOUNT_NAME",
+        "synonyms": [
+          "customer",
+          "company"
+        ],
+        "comment": "Salesforce account name"
+      },
+      {
+        "table": "arr",
+        "name": "month",
+        "expr": "arr.MONTH"
+      },
+      {
+        "table": "dates",
+        "name": "fiscal_year",
+        "expr": "dates.FISCAL_YEAR",
+        "comment": "Fiscal year"
+      },
+      {
+        "table": "dates",
+        "name": "fiscal_label",
+        "expr": "'FY' || dates.FISCAL_YEAR"
+      }
+    ],
+    "metrics": [
+      {
+        "table": "arr",
+        "name": "total_ending_arr",
+        "expr": "SUM(arr.ending_arr)",
+        "synonyms": [
+          "ARR"
+        ],
+        "comment": "Total ARR"
+      },
+      {
+        "table": "arr",
+        "name": "total_net_new",
+        "expr": "SUM(arr.net_new)"
+      },
+      {
+        "table": "arr",
+        "name": "account_count",
+        "expr": "COUNT(DISTINCT arr.ACCOUNT_ID)"
+      },
+      {
+        "table": "contact",
+        "name": "contact_count",
+        "expr": "COUNT(contact.ID)"
+      }
+    ],
+    "aiSqlGeneration": "ARR is always in US dollars. Don't sum ending ARR across months.",
+    "aiQuestionCategorization": "Reject questions that are not about revenue.",
+    "verifiedQueries": [
+      {
+        "name": "arr_by_fiscal_year",
+        "question": "What is total ending ARR by fiscal year?",
+        "sql": "SELECT * FROM SEMANTIC_VIEW(SV_BUILDER_SELFTEST METRICS \"arr\".\"total_ending_arr\" DIMENSIONS \"dates\".\"fiscal_year\")",
+        "onboarding": true,
+        "verifiedAt": "1763856000",
+        "verifiedBy": "analyst"
+      }
+    ]
+  },
+  "id": "00000000-5e1f-4e57-9000-000000000001"
+}

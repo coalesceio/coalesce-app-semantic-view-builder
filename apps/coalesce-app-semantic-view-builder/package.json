@@ -1,0 +1,16 @@
+{
+  "name": "Semantic View Builder",
+  "description": "Build Snowflake semantic views on this workspace's dimensions and facts: author, validate, test, import and check drift. Each view is a Semantic View node that deploys with the rest of the pipeline.",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node dist/server.js",
+    "build": "esbuild src/server.js --bundle --platform=node --target=node20 --outfile=dist/server.js",
+    "dev": "npm run build && node dist/server.js",
+    "test": "node test/run.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "yaml": "^2.8.0"
+  }
+}
