@@ -1,0 +1,101 @@
+fileVersion: 1
+id: 177c54be-7955-532b-bfdc-cf94cd0152bb
+name: PARTSUPP
+operation:
+  database: ''
+  deployEnabled: true
+  description: One row per part and supplier.
+  locationName: TPCH
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 77f3ade1-1e47-5933-86bd-378c6018b433
+        stepCounter: 177c54be-7955-532b-bfdc-cf94cd0152bb
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: Part key
+      name: PS_PARTKEY
+      nullable: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 8d5f3128-932c-5762-b201-d515a25c3da1
+        stepCounter: 177c54be-7955-532b-bfdc-cf94cd0152bb
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: Supplier key
+      name: PS_SUPPKEY
+      nullable: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 15ab218a-f494-5495-9ebb-e0b16baf9f07
+        stepCounter: 177c54be-7955-532b-bfdc-cf94cd0152bb
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: Available quantity
+      name: PS_AVAILQTY
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 317fcb8e-d871-5f37-8dc3-cd04f42fb381
+        stepCounter: 177c54be-7955-532b-bfdc-cf94cd0152bb
+      config: {}
+      dataType: NUMBER(12,2)
+      defaultValue: ''
+      description: Supply cost
+      name: PS_SUPPLYCOST
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 677248c2-458d-59d6-81e5-420dbee7f734
+        stepCounter: 177c54be-7955-532b-bfdc-cf94cd0152bb
+      config: {}
+      dataType: VARCHAR(199)
+      defaultValue: ''
+      description: ''
+      name: PS_COMMENT
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+  name: PARTSUPP
+  schema: ''
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

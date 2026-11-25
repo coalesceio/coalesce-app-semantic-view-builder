@@ -1,0 +1,169 @@
+fileVersion: 1
+id: 7e593ad8-c9ae-5f99-a06c-ac235dae295a
+name: PART
+operation:
+  database: ''
+  deployEnabled: true
+  description: One row per part.
+  locationName: TPCH
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 555f3c62-7e60-5a15-baa2-55b74df4e0ec
+        stepCounter: 7e593ad8-c9ae-5f99-a06c-ac235dae295a
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: Part key
+      name: P_PARTKEY
+      nullable: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 8d484190-f088-5960-ba46-89fd0f5a2dd5
+        stepCounter: 7e593ad8-c9ae-5f99-a06c-ac235dae295a
+      config: {}
+      dataType: VARCHAR(55)
+      defaultValue: ''
+      description: Part name
+      name: P_NAME
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 927bb0f2-833e-52ae-9534-fe49cefc36cd
+        stepCounter: 7e593ad8-c9ae-5f99-a06c-ac235dae295a
+      config: {}
+      dataType: VARCHAR(25)
+      defaultValue: ''
+      description: Manufacturer
+      name: P_MFGR
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 83eebaf6-65cb-59e1-9983-c4b72b776f62
+        stepCounter: 7e593ad8-c9ae-5f99-a06c-ac235dae295a
+      config: {}
+      dataType: VARCHAR(10)
+      defaultValue: ''
+      description: Brand
+      name: P_BRAND
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 579a469c-7f31-57fc-9488-e4c118c17e1f
+        stepCounter: 7e593ad8-c9ae-5f99-a06c-ac235dae295a
+      config: {}
+      dataType: VARCHAR(25)
+      defaultValue: ''
+      description: Part type
+      name: P_TYPE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: a7b5d43e-2701-5fac-8caa-28ef6004aad9
+        stepCounter: 7e593ad8-c9ae-5f99-a06c-ac235dae295a
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: Size
+      name: P_SIZE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 6e33bfa1-2286-5dcd-86c6-a25c069e14fd
+        stepCounter: 7e593ad8-c9ae-5f99-a06c-ac235dae295a
+      config: {}
+      dataType: VARCHAR(10)
+      defaultValue: ''
+      description: Container
+      name: P_CONTAINER
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 61c180bd-eef0-5be1-a1f8-746885035bd7
+        stepCounter: 7e593ad8-c9ae-5f99-a06c-ac235dae295a
+      config: {}
+      dataType: NUMBER(12,2)
+      defaultValue: ''
+      description: Retail price
+      name: P_RETAILPRICE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 883312eb-e8d9-5517-87e4-f9611c5ea117
+        stepCounter: 7e593ad8-c9ae-5f99-a06c-ac235dae295a
+      config: {}
+      dataType: VARCHAR(23)
+      defaultValue: ''
+      description: ''
+      name: P_COMMENT
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+  name: PART
+  schema: ''
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

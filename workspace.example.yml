@@ -1,0 +1,11 @@
+# Copy this file to workspace.yml (git ignores it) and set your own coa profile and the
+# database and schema your semantic views should be created in. The TPCH location reads
+# Snowflake's shared sample data; an account admin can add it from the SFC_SAMPLES share.
+profile: default
+locations:
+  TPCH:
+    database: SNOWFLAKE_SAMPLE_DATA
+    schema: TPCH_SF1
+  SAMPLE:
+    database: DEV
+    schema: SEMANTIC_VIEWS

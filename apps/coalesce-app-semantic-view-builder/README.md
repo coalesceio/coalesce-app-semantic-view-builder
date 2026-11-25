@@ -148,25 +148,40 @@ connections from this machine only.
 
 ## Developing
 
-This repository is the app's source; workspaces only get copies of it. To work on it against
-a real workspace, link your working copy into that workspace's `apps/` folder and keep the
-link out of the workspace's git:
+This repository is the app's source; projects only get copies of it. The repository's root
+is also a small Coalesce project for developing and testing the app: TPC-H source nodes
+(Snowflake's `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1`) in location `TPCH`, and an empty default
+location `SAMPLE` for the views you build. The marketplace installs only
+`apps/coalesce-app-semantic-view-builder/`, so none of that reaches users.
 
-```bash
-ln -s ~/GitHub/coalesce-app-semantic-view-builder/apps/coalesce-app-semantic-view-builder <workspace>/apps/semantic-view-builder
-echo /apps/semantic-view-builder >> <workspace>/.git/info/exclude
-```
+There are two ways to run your working copy in a project:
 
-Coalesce lists the link in the sidebar like any app and runs `dist/server.js` from this
-repository. Don't also install the marketplace version in that workspace, or you'll have two
-Semantic View Builders in the sidebar. Card positions are saved in the workspace either way
-(`apps/.semantic-view-builder/`).
+- **The sample project.** Copy `workspace.example.yml` to `workspace.yml` (git ignores it),
+  set your coa profile and the database and schema for `SAMPLE`, run `coa install` at the
+  repository root, and open the repository in Coalesce Desktop: the app is in the sidebar.
+  Building and checking views works anywhere; creating them needs `SNOWFLAKE_SAMPLE_DATA` in
+  your Snowflake account (an account admin can add it from the `SFC_SAMPLES` share).
+- **A real project.** Link your working copy into that project's `apps/` folder and keep the
+  link out of its git:
+
+  ```bash
+  ln -s ~/GitHub/coalesce-app-semantic-view-builder/apps/coalesce-app-semantic-view-builder <project>/apps/semantic-view-builder
+  echo /apps/semantic-view-builder >> <project>/.git/info/exclude
+  ```
+
+  Coalesce lists the link in the sidebar like any app and runs `dist/server.js` from this
+  repository. Don't also install the marketplace version in that project, or you'll have two
+  Semantic View Builders in the sidebar.
+
+Either way, card positions are saved in the project, in `apps/.semantic-view-builder/`. This
+repository ignores that folder: the marketplace refuses a release whose `apps/` folder holds
+anything but the app.
 
 ```bash
 npm install
 npm run build        # bundles src/ + the yaml package into dist/server.js (commit it)
-SVB_TEST_WORKSPACE=<workspace> npm test     # spec and package-format checks; app DDL == package-rendered DDL
-WORKSPACE_DIR=<workspace> PORT=3918 node dist/server.js   # run outside Coalesce
+npm test             # spec and package-format checks against the sample project
+WORKSPACE_DIR=<project> PORT=3918 node dist/server.js   # run outside Coalesce
 ```
 
 `dist/server.js` is what Coalesce runs, so rebuild and commit it after changing `src/`.
@@ -175,10 +190,10 @@ Coalesce keeps an app's server running until the app is reopened, so after any c
 the Semantic View Builder tab and open it again from Apps. If the page ever meets an older
 server, it says so instead of failing; bump `API_VERSION` in both `src/server.js` and
 `public/app.js` whenever an `/api` response changes shape. `toDDL()` in `src/pkg.js` mirrors
-the package's create template. `npm test` renders the fixture through the installed package
-with `coa create --dry-run` and fails when they diverge; it skips that check while the
-package is not installed. The tests read the nodes `FCT_MONTHLY_ACCOUNT_ARR`, `DIM_DATE`,
-`DIM_CONTACT` and `ACCOUNT` from `SVB_TEST_WORKSPACE`, so it must be a workspace that has them.
+the package's create template. `npm test` reads the sample project at the repository root
+(`SVB_TEST_WORKSPACE` points it at a copy) and needs no Snowflake connection. It also renders
+the fixture through the installed package with `coa create --dry-run` and fails when the two
+differ; it skips that check until the project has a `workspace.yml` and the package.
 
 ## Releasing
 

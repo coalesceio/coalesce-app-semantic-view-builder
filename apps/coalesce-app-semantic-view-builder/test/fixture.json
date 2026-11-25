@@ -1,150 +1,63 @@
 {
-  "name": "SV_BUILDER_SELFTEST",
-  "location": "EDW",
-  "description": "ARR movements by account and month. It's a test of the builder's \"quoting\".",
+  "name": "SV_SAMPLE_SELFTEST",
+  "location": "SAMPLE",
+  "description": "Order lines with their orders and parts. It's a test of the builder's \"quoting\".",
   "spec": {
     "tables": [
       {
-        "alias": "arr",
-        "location": "EDW",
-        "node": "FCT_MONTHLY_ACCOUNT_ARR",
-        "primaryKey": [
-          "ACCOUNT_ID",
-          "MONTH"
-        ],
-        "synonyms": [
-          "recurring revenue",
-          "arr movements"
-        ],
-        "comment": "One row per account per month."
+        "alias": "lines",
+        "location": "TPCH",
+        "node": "LINEITEM",
+        "primaryKey": ["L_ORDERKEY", "L_LINENUMBER"],
+        "synonyms": ["order lines", "line items"],
+        "comment": "One row per order line."
       },
       {
-        "alias": "dates",
-        "location": "EDW",
-        "node": "DIM_DATE",
-        "primaryKey": [
-          "DATE_KEY"
-        ],
-        "synonyms": [
-          "calendar"
-        ],
-        "comment": "Calendar"
+        "alias": "orders",
+        "location": "TPCH",
+        "node": "ORDERS",
+        "primaryKey": ["O_ORDERKEY"],
+        "synonyms": ["sales orders"],
+        "comment": "Orders"
       },
       {
-        "alias": "contact",
-        "location": "EDW",
-        "node": "DIM_CONTACT",
-        "primaryKey": [
-          "ID"
-        ]
+        "alias": "parts",
+        "location": "TPCH",
+        "node": "PART",
+        "primaryKey": ["P_PARTKEY"]
       }
     ],
     "relationships": [
-      {
-        "name": "arr_to_dates",
-        "from": "arr",
-        "fromColumns": [
-          "MONTH"
-        ],
-        "to": "dates",
-        "toColumns": [
-          "DATE_KEY"
-        ]
-      },
-      {
-        "name": "arr_to_contact",
-        "from": "arr",
-        "fromColumns": [
-          "ACCOUNT_ID"
-        ],
-        "to": "contact",
-        "toColumns": [
-          "ID"
-        ]
-      }
+      { "name": "lines_to_orders", "from": "lines", "fromColumns": ["L_ORDERKEY"], "to": "orders", "toColumns": ["O_ORDERKEY"] },
+      { "name": "lines_to_parts", "from": "lines", "fromColumns": ["L_PARTKEY"], "to": "parts", "toColumns": ["P_PARTKEY"] }
     ],
     "facts": [
-      {
-        "table": "arr",
-        "name": "ending_arr",
-        "expr": "arr.ENDING_ARR",
-        "comment": "ARR at month end"
-      },
-      {
-        "table": "arr",
-        "name": "net_new",
-        "expr": "arr.NEW_BUSINESS_ARR + arr.EXPANSION_ARR - arr.CONTRACTION_ARR - arr.CHURN_ARR",
-        "synonyms": [
-          "net new arr"
-        ]
-      }
+      { "table": "lines", "name": "list_price", "expr": "lines.L_EXTENDEDPRICE", "comment": "Quantity times the part's retail price" },
+      { "table": "lines", "name": "net_price", "expr": "lines.L_EXTENDEDPRICE * (1 - lines.L_DISCOUNT)", "synonyms": ["discounted price"] }
     ],
     "dimensions": [
-      {
-        "table": "arr",
-        "name": "account_name",
-        "expr": "arr.ACCOUNT_NAME",
-        "synonyms": [
-          "customer",
-          "company"
-        ],
-        "comment": "Salesforce account name"
-      },
-      {
-        "table": "arr",
-        "name": "month",
-        "expr": "arr.MONTH"
-      },
-      {
-        "table": "dates",
-        "name": "fiscal_year",
-        "expr": "dates.FISCAL_YEAR",
-        "comment": "Fiscal year"
-      },
-      {
-        "table": "dates",
-        "name": "fiscal_label",
-        "expr": "'FY' || dates.FISCAL_YEAR"
-      }
+      { "table": "lines", "name": "ship_mode", "expr": "lines.L_SHIPMODE", "synonyms": ["carrier", "shipping method"], "comment": "How the line shipped" },
+      { "table": "lines", "name": "ship_date", "expr": "lines.L_SHIPDATE" },
+      { "table": "orders", "name": "order_priority", "expr": "orders.O_ORDERPRIORITY", "comment": "Order priority" },
+      { "table": "orders", "name": "priority_label", "expr": "'P' || orders.O_ORDERPRIORITY" }
     ],
     "metrics": [
-      {
-        "table": "arr",
-        "name": "total_ending_arr",
-        "expr": "SUM(arr.ending_arr)",
-        "synonyms": [
-          "ARR"
-        ],
-        "comment": "Total ARR"
-      },
-      {
-        "table": "arr",
-        "name": "total_net_new",
-        "expr": "SUM(arr.net_new)"
-      },
-      {
-        "table": "arr",
-        "name": "account_count",
-        "expr": "COUNT(DISTINCT arr.ACCOUNT_ID)"
-      },
-      {
-        "table": "contact",
-        "name": "contact_count",
-        "expr": "COUNT(contact.ID)"
-      }
+      { "table": "lines", "name": "total_list_price", "expr": "SUM(lines.list_price)", "synonyms": ["revenue"], "comment": "Total list price" },
+      { "table": "lines", "name": "total_net_price", "expr": "SUM(lines.net_price)" },
+      { "table": "lines", "name": "order_count", "expr": "COUNT(DISTINCT lines.L_ORDERKEY)" },
+      { "table": "parts", "name": "part_count", "expr": "COUNT(parts.P_PARTKEY)" }
     ],
-    "aiSqlGeneration": "ARR is always in US dollars. Don't sum ending ARR across months.",
-    "aiQuestionCategorization": "Reject questions that are not about revenue.",
+    "aiSqlGeneration": "Prices are in US dollars. Net price is after the line's discount.",
+    "aiQuestionCategorization": "Reject questions that are not about orders.",
     "verifiedQueries": [
       {
-        "name": "arr_by_fiscal_year",
-        "question": "What is total ending ARR by fiscal year?",
-        "sql": "SELECT * FROM SEMANTIC_VIEW(SV_BUILDER_SELFTEST METRICS \"arr\".\"total_ending_arr\" DIMENSIONS \"dates\".\"fiscal_year\")",
+        "name": "net_price_by_priority",
+        "question": "What is total net price by order priority?",
+        "sql": "SELECT * FROM SEMANTIC_VIEW(SV_SAMPLE_SELFTEST METRICS \"lines\".\"total_net_price\" DIMENSIONS \"orders\".\"order_priority\")",
         "onboarding": true,
         "verifiedAt": "1763856000",
         "verifiedBy": "analyst"
       }
     ]
-  },
-  "id": "00000000-5e1f-4e57-9000-000000000001"
+  }
 }

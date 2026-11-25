@@ -1,0 +1,10 @@
+config:
+  entities:
+    nodeTypes: {}
+  packageVariables: ""
+fileVersion: 1
+id: "@coalesce/snowflake/semantic-view"
+name: semantic-view
+packageID: "@coalesce/snowflake/semantic-view"
+releaseID: e64bb2fc-372c-4ecd-8100-f0ac70ccec29
+type: Package

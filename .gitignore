@@ -1,2 +1,9 @@
 node_modules
 .DS_Store
+# Personal: each developer has their own profile and schemas (see workspace.example.yml).
+workspace.yml
+coa-plan.json
+.coa/
+# Card positions the app saves while you work in this project. Never commit them: the
+# marketplace refuses a release whose apps/ folder holds anything but the app.
+apps/.semantic-view-builder/

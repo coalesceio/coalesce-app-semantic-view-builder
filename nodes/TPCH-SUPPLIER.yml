@@ -1,0 +1,135 @@
+fileVersion: 1
+id: d778220f-b781-523b-836f-7fe43232b3e8
+name: SUPPLIER
+operation:
+  database: ''
+  deployEnabled: true
+  description: One row per supplier.
+  locationName: TPCH
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 54a33a80-698a-5a02-ba98-b243d0e3b241
+        stepCounter: d778220f-b781-523b-836f-7fe43232b3e8
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: Supplier key
+      name: S_SUPPKEY
+      nullable: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 705bfb93-ac46-5001-80e4-9693d7987f15
+        stepCounter: d778220f-b781-523b-836f-7fe43232b3e8
+      config: {}
+      dataType: VARCHAR(25)
+      defaultValue: ''
+      description: Supplier name
+      name: S_NAME
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 14cb648a-3d25-5533-9a84-30a380f76cc8
+        stepCounter: d778220f-b781-523b-836f-7fe43232b3e8
+      config: {}
+      dataType: VARCHAR(40)
+      defaultValue: ''
+      description: ''
+      name: S_ADDRESS
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 1a357bb0-3e07-5659-9b9b-a14ee7857cbc
+        stepCounter: d778220f-b781-523b-836f-7fe43232b3e8
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: Nation of the supplier
+      name: S_NATIONKEY
+      nullable: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 2d1da98a-7dbc-5aa7-9fc7-2b910be33b2a
+        stepCounter: d778220f-b781-523b-836f-7fe43232b3e8
+      config: {}
+      dataType: VARCHAR(15)
+      defaultValue: ''
+      description: ''
+      name: S_PHONE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 297611d2-d019-511c-b193-f6daa4e263af
+        stepCounter: d778220f-b781-523b-836f-7fe43232b3e8
+      config: {}
+      dataType: NUMBER(12,2)
+      defaultValue: ''
+      description: Account balance
+      name: S_ACCTBAL
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 908a6d61-4ef4-5ffa-9a28-f62bd988f048
+        stepCounter: d778220f-b781-523b-836f-7fe43232b3e8
+      config: {}
+      dataType: VARCHAR(101)
+      defaultValue: ''
+      description: ''
+      name: S_COMMENT
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+  name: SUPPLIER
+  schema: ''
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node
