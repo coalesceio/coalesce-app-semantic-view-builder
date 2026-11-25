@@ -12,7 +12,13 @@ const P = require("../src/pkg");
 const { loadWorkspace, sqlNodeColumns } = require("../src/workspace");
 const { coaCommand } = require("../src/coa");
 
+// The workspace whose nodes the tests read: SVB_TEST_WORKSPACE, else the workspace the app is
+// installed in. From the app's own repository, point SVB_TEST_WORKSPACE at a workspace.
 const dir = path.resolve(process.env.SVB_TEST_WORKSPACE || path.join(__dirname, "..", "..", ".."));
+if (!fs.existsSync(path.join(dir, "data.yml"))) {
+  console.error(`${dir} is not a Coalesce workspace (it has no data.yml). Set SVB_TEST_WORKSPACE to a workspace that has the fixture's nodes, for example:\n  SVB_TEST_WORKSPACE=~/GitHub/coalesce-edw npm test`);
+  process.exit(1);
+}
 const view = JSON.parse(fs.readFileSync(path.join(__dirname, "fixture.json"), "utf8"));
 const ws = loadWorkspace(dir);
 const clone = (x) => JSON.parse(JSON.stringify(x));

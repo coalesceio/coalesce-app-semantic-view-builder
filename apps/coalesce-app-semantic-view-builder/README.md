@@ -148,11 +148,25 @@ connections from this machine only.
 
 ## Developing
 
+This repository is the app's source; workspaces only get copies of it. To work on it against
+a real workspace, link your working copy into that workspace's `apps/` folder and keep the
+link out of the workspace's git:
+
+```bash
+ln -s ~/GitHub/coalesce-app-semantic-view-builder/apps/coalesce-app-semantic-view-builder <workspace>/apps/semantic-view-builder
+echo /apps/semantic-view-builder >> <workspace>/.git/info/exclude
+```
+
+Coalesce lists the link in the sidebar like any app and runs `dist/server.js` from this
+repository. Don't also install the marketplace version in that workspace, or you'll have two
+Semantic View Builders in the sidebar. Card positions are saved in the workspace either way
+(`apps/.semantic-view-builder/`).
+
 ```bash
 npm install
 npm run build        # bundles src/ + the yaml package into dist/server.js (commit it)
-npm test             # spec and package-format checks; app DDL == package-rendered DDL
-PORT=3918 node dist/server.js
+SVB_TEST_WORKSPACE=<workspace> npm test     # spec and package-format checks; app DDL == package-rendered DDL
+WORKSPACE_DIR=<workspace> PORT=3918 node dist/server.js   # run outside Coalesce
 ```
 
 `dist/server.js` is what Coalesce runs, so rebuild and commit it after changing `src/`.
@@ -160,12 +174,11 @@ PORT=3918 node dist/server.js
 Coalesce keeps an app's server running until the app is reopened, so after any change close
 the Semantic View Builder tab and open it again from Apps. If the page ever meets an older
 server, it says so instead of failing; bump `API_VERSION` in both `src/server.js` and
-`public/app.js` whenever an `/api` response changes shape. `toDDL()` in `src/pkg.js` mirrors the package's create
-template. `npm test` renders the fixture through the installed package with
-`coa create --dry-run` and fails when they diverge; it skips that check while the package
-is not installed. The tests read nodes of the workspace the app was built in
-(`FCT_MONTHLY_ACCOUNT_ARR`, `DIM_DATE`, `DIM_CONTACT`, `ACCOUNT`); `SVB_TEST_WORKSPACE=<dir>`
-runs them against another workspace that has them.
+`public/app.js` whenever an `/api` response changes shape. `toDDL()` in `src/pkg.js` mirrors
+the package's create template. `npm test` renders the fixture through the installed package
+with `coa create --dry-run` and fails when they diverge; it skips that check while the
+package is not installed. The tests read the nodes `FCT_MONTHLY_ACCOUNT_ARR`, `DIM_DATE`,
+`DIM_CONTACT` and `ACCOUNT` from `SVB_TEST_WORKSPACE`, so it must be a workspace that has them.
 
 ## Releasing
 
